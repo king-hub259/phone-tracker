@@ -15,11 +15,12 @@ workflows:
       - name: Make gradlew executable
         script: chmod +x ./gradlew
 
-      - name: Build Release APK
-        script: ./gradlew assembleRelease
+    scripts:
+  - name: Build Release APK
+    script: |
+      cd android
+      ./gradlew assembleRelease --stacktrace --info
 
-      - name: (Optional) Build App Bundle (AAB)
-        script: ./gradlew bundleRelease
 
       - name: Verify outputs
         script: |

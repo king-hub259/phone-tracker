@@ -11,21 +11,19 @@ workflows:
         - ~/.gradle
         - ~/.android
         - build/
+
     scripts:
       - name: Make gradlew executable
         script: chmod +x ./gradlew
 
-    scripts:
-  - name: Build Release APK
-    script: |
-      cd android
-      ./gradlew assembleRelease --stacktrace --info
-
+      - name: Build Release APK
+        script: |
+          ./gradlew assembleRelease --stacktrace --info
 
       - name: Verify outputs
         script: |
           echo "✅ Build completed. Listing outputs:"
-          find app/build/outputs/ -type f \( -name "*.apk" -o -name "*.aab" \)
+          find . -type f \( -name "*.apk" -o -name "*.aab" \)
 
     artifacts:
       - app/build/outputs/apk/release/*.apk

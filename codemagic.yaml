@@ -4,21 +4,17 @@ workflows:
     max_build_duration: 60
     environment:
       java: 17
-      vars:
-        BUILD_TYPE: "Release"
     cache:
       cache_paths:
         - ~/.gradle
         - ~/.android
         - build/
-
     scripts:
       - name: Make gradlew executable
         script: chmod +x ./gradlew
 
       - name: Build Release APK
-        script: |
-          ./gradlew assembleRelease --stacktrace --info
+        script: ./gradlew assembleRelease --stacktrace --info
 
       - name: Verify outputs
         script: |

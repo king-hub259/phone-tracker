@@ -3,10 +3,9 @@ workflows:
     name: Android Gradle Release Build
     max_build_duration: 60
     environment:
-      vars:
-        GRADLEW_PATH: "./gradlew"
-        BUILD_TYPE: "Release"
       java: 17
+      vars:
+        BUILD_TYPE: "Release"
     cache:
       cache_paths:
         - ~/.gradle
@@ -14,23 +13,21 @@ workflows:
         - build/
     scripts:
       - name: Make gradlew executable
-        script: chmod +x $GRADLEW_PATH
+        script: chmod +x ./gradlew
 
       - name: Clean project
-        script: $GRADLEW_PATH clean
+        script: ./gradlew clean
 
       - name: Build Release APK
-        script: $GRADLEW_PATH assembleRelease
+        script: ./gradlew assembleRelease
 
       - name: (Optional) Build App Bundle (AAB)
-        script: $GRADLEW_PATH bundleRelease
+        script: ./gradlew bundleRelease
 
       - name: Verify outputs
         script: |
-          echo "APK files:"
-          find . -name "*.apk"
-          echo "AAB files:"
-          find . -name "*.aab"
+          echo "✅ Build completed. Listing outputs:"
+          find app/build/outputs/ -type f \( -name "*.apk" -o -name "*.aab" \)
 
     artifacts:
       - app/build/outputs/apk/release/*.apk
